@@ -1,28 +1,39 @@
-import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import Hero from './components/Hero'
+import Categories from './components/Categories'
+import FeaturedGrid from './components/FeaturedGrid'
+import PropertyPage from './components/PropertyPage'
 
-function App() {
-  const [count, setCount] = useState(0)
+function Home() {
+  const handleSelect = (item) => {
+    // For now, just scroll to featured
+    const el = document.getElementById('featured')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
-    </div>
+    <>
+      <Hero />
+      <Categories onSelect={handleSelect} />
+      <FeaturedGrid />
+    </>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <div className="min-h-screen bg-white text-slate-900">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/property/:slug" element={<PropertyPage />} />
+      </Routes>
+      <footer className="border-t py-8 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm text-slate-600">
+          © {new Date().getFullYear()} Isherwood Developments. All rights reserved.
+        </div>
+      </footer>
+    </div>
+  )
+}
